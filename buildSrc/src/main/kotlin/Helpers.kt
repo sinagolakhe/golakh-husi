@@ -257,7 +257,7 @@ fun Project.setupApp() {
 
         splits.abi {
             isEnable = true
-            isUniversalApk = false
+            isUniversalApk = true
             if (targetAbi.isNotBlank()) {
                 reset()
                 include(targetAbi)
