@@ -484,7 +484,7 @@ class V2RayFmtTest {
         val outbound = buildSingBoxOutboundStandardV2RayBean(bean)
         assertIs<SingBoxOptions.Outbound_VLESSOptions>(outbound)
         assertNotNull(outbound.tls)
-        assertEquals(listOf("TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384"), outbound.tls!!.cipher_suites)
+        assertEquals(listOf("TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384"), outbound.tls!!.cipher_suites?.toList())
         assertNotNull(outbound.finalmask)
     }
 }

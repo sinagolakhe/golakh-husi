@@ -7,8 +7,6 @@ import (
 	"time"
 )
 
-
-
 func randBetween(min, max int64) int64 {
 	if min >= max {
 		return min

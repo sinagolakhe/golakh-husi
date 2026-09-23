@@ -64,7 +64,6 @@ func NewOutbound(ctx context.Context, router adapter.Router, logger log.ContextL
 		}
 	}
 	outbound := &Outbound{
-
 		Adapter:    outbound.NewAdapterWithDialerOptions(C.TypeVLESS, tag, options.Network.Build(), options.DialerOptions),
 		logger:     logger,
 		dialer:     outboundDialer,
@@ -289,4 +288,3 @@ func wrapDialerWithFinalmask(d N.Dialer, cfg *finalmask.FinalmaskConfig) N.Diale
 	}
 	return &finalmaskDialer{dialer: d, cfg: cfg}
 }
-
