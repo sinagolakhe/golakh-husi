@@ -55,7 +55,7 @@ func NewOutbound(ctx context.Context, router adapter.Router, logger log.ContextL
 		return nil, err
 	}
 	if len(options.Finalmask) > 0 {
-		fmConfig, err := finalmask.ParseFinalmaskJSON(options.Finalmask)
+		fmConfig, err := finalmask.ParseFinalmaskJSON([]byte(options.Finalmask))
 		if err != nil {
 			return nil, E.Cause(err, "parse finalmask config")
 		}
