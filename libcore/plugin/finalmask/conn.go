@@ -185,6 +185,3 @@ func WrapTCPConn(raw net.Conn, cfg *FinalmaskConfig) (net.Conn, error) {
 	}
 	return conn, nil
 }
-
-
-
