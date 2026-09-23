@@ -3,9 +3,13 @@ name: Build Android APK
 on:
   push:
     branches: [ "dev", "main", "master" ]
+    tags: [ "v*" ]
   pull_request:
     branches: [ "dev", "main", "master" ]
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -84,3 +88,25 @@ jobs:
           name: husi-apks
           path: androidApp/build/outputs/apk/foss/release/*.apk
           if-no-files-found: error
+
+      - name: Publish to GitHub Releases
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/dev'
+        with:
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'latest' }}
+          name: ${{ startsWith(github.ref, 'refs/tags/') && format('Husi {0} (Finalmask & Cipher Suites)', github.ref_name) || 'Husi Latest (Finalmask & Cipher Suites)' }}
+          body: |
+            ### Husi with PattNG Finalmask & Cipher Suites Support
+
+            Android Release APKs supporting PattNG's **Xray-compatible `finalmask` TCP/TLS fragmentation** and **custom `cipher_suites`** for VLESS over TLS, enabling bypass of DPI firewall blocks on Cloudflare IPs.
+
+            #### Downloads:
+            - **`husi-*-universal-foss-release.apk`**: Universal APK (recommended for all Android devices).
+            - **`husi-*-arm64-v8a-foss-release.apk`**: Architecture-specific APK for 64-bit ARM devices.
+
+            #### Features:
+            - **Finalmask TCP & TLS Fragmentation Engine**: Circumvents Cloudflare IP / SNI firewall blocking by splitting TLS ClientHello records (`tlshello`) and initial TCP packets (`1-1`).
+            - **Custom Cipher Suites**: Supports custom TLS cipher suites for VLESS profiles.
+          files: androidApp/build/outputs/apk/foss/release/*.apk
+          fail_on_unmatched_files: false
+          make_latest: "true"
